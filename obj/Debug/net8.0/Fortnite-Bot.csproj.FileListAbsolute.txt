@@ -1,0 +1,15 @@
+/apps/perso/Fortnite-Bot/bin/Debug/net8.0/Fortnite-Bot
+/apps/perso/Fortnite-Bot/bin/Debug/net8.0/Fortnite-Bot.deps.json
+/apps/perso/Fortnite-Bot/bin/Debug/net8.0/Fortnite-Bot.runtimeconfig.json
+/apps/perso/Fortnite-Bot/bin/Debug/net8.0/Fortnite-Bot.dll
+/apps/perso/Fortnite-Bot/bin/Debug/net8.0/Fortnite-Bot.pdb
+/apps/perso/Fortnite-Bot/obj/Debug/net8.0/Fortnite-Bot.GeneratedMSBuildEditorConfig.editorconfig
+/apps/perso/Fortnite-Bot/obj/Debug/net8.0/Fortnite-Bot.AssemblyInfoInputs.cache
+/apps/perso/Fortnite-Bot/obj/Debug/net8.0/Fortnite-Bot.AssemblyInfo.cs
+/apps/perso/Fortnite-Bot/obj/Debug/net8.0/Fortnite-Bot.csproj.CoreCompileInputs.cache
+/apps/perso/Fortnite-Bot/obj/Debug/net8.0/Fortnite-Bot.sourcelink.json
+/apps/perso/Fortnite-Bot/obj/Debug/net8.0/Fortnite-Bot.dll
+/apps/perso/Fortnite-Bot/obj/Debug/net8.0/refint/Fortnite-Bot.dll
+/apps/perso/Fortnite-Bot/obj/Debug/net8.0/Fortnite-Bot.pdb
+/apps/perso/Fortnite-Bot/obj/Debug/net8.0/Fortnite-Bot.genruntimeconfig.cache
+/apps/perso/Fortnite-Bot/obj/Debug/net8.0/ref/Fortnite-Bot.dll
