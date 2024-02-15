@@ -21,7 +21,7 @@ namespace FortniteBot
             _discordClient = new DiscordSocketClient(new DiscordSocketConfig
             {
                 LogLevel = LogSeverity.Info,
-                GatewayIntents = GatewayIntents.All
+                GatewayIntents = GatewayIntents.Guilds | GatewayIntents.MessageContent | GatewayIntents.GuildMessages,
             });
             _discordClient.Log += Logger.Log;
             _discordClient.MessageReceived += HandleCommandAsync;
