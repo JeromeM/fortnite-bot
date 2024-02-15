@@ -13,10 +13,16 @@ namespace FortniteBot.Commands
 
         [Command("news")]
         [Summary("Get news for Fortnite")]
-        public async Task NewsCommand()
+        public async Task NewsCommand([Summary("Get help")] string help="")
         {
             string apiKey = ConfigurationHelper.GetByName("Discord:API:Key");
             string URL = ConfigurationHelper.GetByName("Discord:API:News:URL");
+
+            if (help == "help")
+            {
+                await ReplyAsync(Usage());
+                return;
+            }
 
             using HttpClient client = new();
             try
@@ -71,7 +77,7 @@ namespace FortniteBot.Commands
                 }
                 else if ((int)response.StatusCode == 400)
                 {
-                    await ReplyAsync("Invalid or missing parameter(s)");
+                    await ReplyAsync(Usage());
                 }
                 else if ((int)response.StatusCode == 404)
                 {
@@ -82,6 +88,13 @@ namespace FortniteBot.Commands
             {
                 Console.WriteLine($"Une erreur s'est produite : {ex.Message}");
             }
+        }
+
+        private static string Usage()
+        {
+            return "**Usage** : !news _br_|_stw_\n" +
+                "__Optionnal__ :\n" +
+                "\t**br** | **stw** : Show news only for Battle Royale or Save the World";
         }
     }
 }
