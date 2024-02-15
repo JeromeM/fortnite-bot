@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace FortniteBot
+namespace FortniteBot.Helpers
 {
     public static class ConfigurationHelper
     {

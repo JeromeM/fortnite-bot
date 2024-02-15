@@ -1,4 +1,4 @@
-﻿namespace FortniteBot.Stats
+﻿namespace FortniteBot.Data.Stats
 {
     public class StatsData
     {

@@ -1,9 +1,10 @@
 ﻿using Discord;
 using Discord.Commands;
-using FortniteBot.Stats;
+using FortniteBot.Data.News;
+using FortniteBot.Helpers;
 using Newtonsoft.Json;
 
-namespace FortniteBot.News
+namespace FortniteBot.Commands
 {
     public class NewsModule : ModuleBase<SocketCommandContext>
     {

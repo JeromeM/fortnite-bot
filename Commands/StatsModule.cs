@@ -1,8 +1,10 @@
 ﻿using Discord;
 using Discord.Commands;
+using FortniteBot.Helpers;
+using FortniteBot.Data.Stats;
 using Newtonsoft.Json;
 
-namespace FortniteBot.Stats
+namespace FortniteBot.Commands
 {
     public class StatsModule : ModuleBase<SocketCommandContext>
     {

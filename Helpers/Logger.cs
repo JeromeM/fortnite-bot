@@ -1,6 +1,6 @@
 ﻿using Discord;
 
-namespace FortniteBot
+namespace FortniteBot.Helpers
 {
     public class Logger
     {

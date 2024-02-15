@@ -1,4 +1,4 @@
-﻿namespace FortniteBot.News
+﻿namespace FortniteBot.Data.News
 {
     public class NewsData
     {

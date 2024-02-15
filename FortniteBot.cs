@@ -2,6 +2,7 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using System.Reflection;
+using FortniteBot.Helpers;
 
 namespace FortniteBot
 {
