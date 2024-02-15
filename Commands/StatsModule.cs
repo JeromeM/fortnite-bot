@@ -10,10 +10,19 @@ namespace FortniteBot.Commands
     {
         private Embed? builtEmbed;
 
+        private string AccountName;
+        private string Params;
+
         [Command("stats")]
         [Summary("Get stats for a Fortnite account")]
-        public async Task StatsCommand([Summary("Fortnite account name")] string accountName)
+        public async Task StatsCommand(
+            [Summary("Sets the account name")] string accountName="",
+            [Remainder][Summary("Other params")] string prms=""
+            )
         {
+            AccountName = accountName;
+            Params = prms;
+
             string apiKey = ConfigurationHelper.GetByName("Discord:API:Key");
             string URL = ConfigurationHelper.GetByName("Discord:API:Stats:URL");
 
@@ -21,7 +30,7 @@ namespace FortniteBot.Commands
             try
             {
                 client.DefaultRequestHeaders.Add("Authorization", apiKey);
-                HttpResponseMessage response = await client.GetAsync($"{URL}?name={accountName}");
+                HttpResponseMessage response = await client.GetAsync(GenerateUrlParams(URL));
 
                 // Vérifiez si la requête a réussi
                 if (response.IsSuccessStatusCode)
@@ -63,11 +72,12 @@ namespace FortniteBot.Commands
 
                         var embed = new EmbedBuilder
                         {
-                            Title = $"__Stats for account {accountName}__",
+                            Title = $"__Stats for account {AccountName}__",
                             Description = $"- Level : **{responseData.Data.BattlePass.Level}**\n" +
                                 $"- Games played : **{responseData.Data.Stats.All.Overall.Matches}**\n" +
                                 $"- Prefered game style is **{preferedGamestyle}**\n" +
                                 $"------------------------------------\n",
+                            ImageUrl = responseData.Data.Image,
                             Color = new Color(0, 255, 255),
                         };
 
@@ -122,21 +132,54 @@ namespace FortniteBot.Commands
                 }
                 else if ((int)response.StatusCode == 400)
                 {
-                    await ReplyAsync("Invalid or missing parameter(s)");
+                    await ReplyAsync(Usage());
                 }
                 else if ((int)response.StatusCode == 403)
                 {
-                    await ReplyAsync($"Account **{accountName}** stats are private");
+                    await ReplyAsync($"Account **{AccountName}** stats are private");
                 }
                 else if ((int)response.StatusCode == 404)
                 {
-                    await ReplyAsync($"Account **{accountName}** does not exist or has no stats");
+                    await ReplyAsync($"Account **{AccountName}** does not exist or has no stats");
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Une erreur s'est produite : {ex.Message}");
             }
+        }
+
+        private string GenerateUrlParams(string URL)
+        {
+            string[] parameters = Params.Split(" ");
+            List<string> urlParams = [$"name={AccountName}"];
+        
+
+            if (parameters.Length > 0)
+            {
+                for (int i = 0; i < parameters.Length; i++)
+                {
+                    if (parameters[i] == "season" || parameters[i] == "lifetime")
+                    {
+                        urlParams.Add($"timeWindow={parameters[i]}");
+                    }
+                    if (parameters[i] == "image")
+                    {
+                        urlParams.Add($"image=all");
+                    }
+                }
+            }
+            return $"{URL}?{string.Join("&", urlParams)}";
+        }
+
+        private static string Usage()
+        {
+            return "**Usage** : !stats **playerAccount** _season_|_lifetime_ _image_\n" +
+                "__Mandatory__ :\n" +
+                "\t**playerAccount** : Name of the account\n\n" +
+                "__Optionnal__ :\n" +
+                "\t**season** | **lifetime** (default _lifetime_): Show stats from current Season, or for the all lifetime\n" +
+                "\t**image** : Add an API generated image with all the stats";
         }
     }
 }
