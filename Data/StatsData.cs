@@ -10,6 +10,7 @@
         public Account Account { get; set; }
         public BattlePass BattlePass { get; set; }
         public Stats Stats { get; set; }
+        public string Image {  get; set; }
     }
 
     public class Account
