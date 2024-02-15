@@ -1,23 +1,24 @@
 using Microsoft.Extensions.Configuration;
 
-namespace FortniteBot.Helpers;
-
-public static class ConfigurationHelper
+namespace FortniteBot
 {
-    public static string GetByName(string configKeyName)
+    public static class ConfigurationHelper
     {
-        var config = new ConfigurationBuilder()
-            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-            .AddJsonFile("appsettings.json")
-            .Build();
-
-        IConfigurationSection section = config.GetSection(configKeyName);
-
-        if (section.Value == null)
+        public static string GetByName(string configKeyName)
         {
-            return "";
-        }
+            var config = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("appsettings.json")
+                .Build();
 
-        return section.Value;
+            IConfigurationSection section = config.GetSection(configKeyName);
+
+            if (section.Value == null)
+            {
+                return "";
+            }
+
+            return section.Value;
+        }
     }
 }
