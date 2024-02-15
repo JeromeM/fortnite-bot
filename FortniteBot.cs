@@ -1,9 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using System.Windows.Input;
 
 namespace FortniteBot
 {
@@ -22,7 +20,7 @@ namespace FortniteBot
             // Client Discord.NET
             _discordClient = new DiscordSocketClient(new DiscordSocketConfig
             {
-                LogLevel = LogSeverity.Debug,
+                LogLevel = LogSeverity.Info,
                 GatewayIntents = GatewayIntents.All
             });
             _discordClient.Log += Logger.Log;
@@ -31,7 +29,7 @@ namespace FortniteBot
             // Service qui va gérer les commandes
             _commandService = new CommandService(new CommandServiceConfig
             {
-                LogLevel = LogSeverity.Debug,
+                LogLevel = LogSeverity.Info,
                 CaseSensitiveCommands = false
             });
             _commandService.Log += Logger.Log;
