@@ -11,7 +11,7 @@ namespace FortniteBot
         private static DiscordSocketClient _discordClient;
         private static CommandService _commandService;
 
-        public static async Task Main(string[] args)
+        public static async Task Main()
         {
 
             // Récupération du Token dans la configuration
@@ -52,7 +52,6 @@ namespace FortniteBot
             await _discordClient.StartAsync();
 
             // Gestion des commandes
-            //await _commandService.AddModuleAsync<StatsModule>(null);
             await _commandService.AddModulesAsync(assembly: Assembly.GetEntryAssembly(), services: null);
 
             // On laisse tourner
@@ -61,23 +60,23 @@ namespace FortniteBot
 
         private static async Task HandleCommandAsync(SocketMessage messageParam)
         {
-            // Don't process the command if it was a system message
+            // Ne pas executer la commande si c'est un message système
             if (messageParam is not SocketUserMessage message) return;
 
-            // Create a number to track where the prefix ends and the command begins
+            // Permet de tracker où le prefix termine et la commande commence
             int argPos = 0;
 
-            // Determine if the message is a command based on the prefix and make sure no bots trigger commands
+            // Si le message n'a pas le prefix ! ou bien le message a le prefixe @,
+            // ou l'auteur du message est le bot, on ne fait rien
             if (!(message.HasCharPrefix('!', ref argPos) ||
                 message.HasMentionPrefix(_discordClient.CurrentUser, ref argPos)) ||
                 message.Author.IsBot)
                 return;
 
-            // Create a WebSocket-based command context based on the message
+            // On créé un contexte de commande Websocket basé sur le message
             var context = new SocketCommandContext(_discordClient, message);
 
-            // Execute the command with the command context we just
-            // created, along with the service provider for precondition checks.
+            // On execute la commande via le contexte et la position de la commande
             await _commandService.ExecuteAsync(
                 context: context,
                 argPos: argPos,

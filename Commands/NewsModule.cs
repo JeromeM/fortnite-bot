@@ -4,6 +4,8 @@ using FortniteBot.Data.News;
 using FortniteBot.Helpers;
 using Newtonsoft.Json;
 
+using static FortniteBot.FortniteResourceManager;
+
 namespace FortniteBot.Commands
 {
     public class NewsModule : ModuleBase<SocketCommandContext>
@@ -11,24 +13,18 @@ namespace FortniteBot.Commands
         private Embed? builtEmbedBattleRoyale;
         private Embed? builtEmbedSaveTheWorld;
 
+        private readonly string apiKey = ConfigurationHelper.GetByName("Discord:API:Key");
+        private readonly string URL = ConfigurationHelper.GetByName("Discord:API:News:URL");
+
         [Command("news")]
         [Summary("Get news for Fortnite")]
-        public async Task NewsCommand([Summary("Get help")] string help="")
+        public async Task NewsCommand()
         {
-            string apiKey = ConfigurationHelper.GetByName("Discord:API:Key");
-            string URL = ConfigurationHelper.GetByName("Discord:API:News:URL");
-
-            if (help == "help")
-            {
-                await ReplyAsync(Usage());
-                return;
-            }
-
             using HttpClient client = new();
             try
             {
                 client.DefaultRequestHeaders.Add("Authorization", apiKey);
-                HttpResponseMessage response = await client.GetAsync($"{URL}");
+                HttpResponseMessage response = await client.GetAsync($"{URL}?language=fr");
 
                 // Vérifiez si la requête a réussi
                 if (response.IsSuccessStatusCode)
@@ -47,7 +43,7 @@ namespace FortniteBot.Commands
 
                             var embed = new EmbedBuilder
                             {
-                                Title = $"__Latest Battle Royale News__",
+                                Title = $"__{GV("newsbr")}__",
                                 ImageUrl = responseData.Data.Br.Image,
                                 Description = description,
                                 Color = new Color(0, 255, 255),
@@ -61,7 +57,7 @@ namespace FortniteBot.Commands
                             var message = responseData.Data.Stw.Messages[0];
                             var embed = new EmbedBuilder
                             {
-                                Title = $"__Latest Save The World News__",
+                                Title = $"__{GV("newsstw")}__",
                                 ImageUrl = message.Image,
                                 Description = $"**{message.Title}**\n_{message.Body}_\n\n",
                                 Color = new Color(0, 255, 255),
@@ -81,20 +77,20 @@ namespace FortniteBot.Commands
                 }
                 else if ((int)response.StatusCode == 404)
                 {
-                    await ReplyAsync("News are empty or do not exist");
+                    await ReplyAsync(GV("emptynews"));
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Une erreur s'est produite : {ex.Message}");
+                Console.WriteLine($"{GV("error")} : {ex.Message}");
             }
         }
 
         private static string Usage()
         {
-            return "**Usage** : !news _br_|_stw_\n" +
-                "__Optionnal__ :\n" +
-                "\t**br** | **stw** : Show news only for Battle Royale or Save the World";
+            return $"**{GV("usage")}** : !news _br_|_stw_\n" +
+                $"__{GV("optionnal")}__ :\n" +
+                $"\t**br** | **stw** : {GV("newsparam")}";
         }
     }
 }
