@@ -4,9 +4,6 @@ using FortniteBot.Helpers;
 using FortniteBot.Data.Stats;
 using Newtonsoft.Json;
 
-using static FortniteBot.FortniteResourceManager;
-using System.Security.Principal;
-
 namespace FortniteBot.Commands
 {
     public class StatsModule : ModuleBase<SocketCommandContext>
@@ -28,6 +25,8 @@ namespace FortniteBot.Commands
         {
             AccountName = accountName;
             Params = prms;
+
+            var rm = new FortniteResourceManager(Context.Guild.Id.ToString());
 
             using HttpClient client = new();
             try
@@ -60,25 +59,25 @@ namespace FortniteBot.Commands
                             touchScore = responseData.Data.Stats.Touch.Overall.Score;
                         }
 
-                        var preferedGamestyle = GV("kmouse");
+                        var preferedGamestyle = rm.GV("kmouse");
                         var max = keyboardScore;
                         if (gamepadScore > max)
                         {
-                            preferedGamestyle = GV("gamepad");
+                            preferedGamestyle = rm.GV("gamepad");
                             max = gamepadScore;
                         }
                         if (touchScore > max)
                         {
-                            preferedGamestyle = GV("tphone");
+                            preferedGamestyle = rm.GV("tphone");
                             max = touchScore;
                         }
 
                         var embed = new EmbedBuilder
                         {
-                            Title = $"__{GV("statsfor")} {AccountName}__",
-                            Description = $"- {GV("level")} : **{responseData.Data.BattlePass.Level}**\n" +
-                                $"- {GV("gplayed")} : **{responseData.Data.Stats.All.Overall.Matches}**\n" +
-                                $"- {GV("preferedgs")} **{preferedGamestyle}**\n" +
+                            Title = $"__{rm.GV("statsfor")} {AccountName}__",
+                            Description = $"- {rm.GV("level")} : **{responseData.Data.BattlePass.Level}**\n" +
+                                $"- {rm.GV("gplayed")} : **{responseData.Data.Stats.All.Overall.Matches}**\n" +
+                                $"- {rm.GV("preferedgs")} **{preferedGamestyle}**\n" +
                                 $"------------------------------------\n",
                             ImageUrl = responseData.Data.Image,
                             Color = new Color(0, 255, 255),
@@ -86,42 +85,42 @@ namespace FortniteBot.Commands
 
                         // Victories
                         embed.AddField(
-                            $"{GV("victories")}",
+                            $"{rm.GV("victories")}",
                             $":crown: {responseData.Data.Stats.All.Overall.Wins}",
                             inline: true
                         );
 
                         // Top 3
                         embed.AddField(
-                            $"{GV("top3")}",
+                            $"{rm.GV("top3")}",
                             $":third_place: {responseData.Data.Stats.All.Overall.Top3}",
                             inline: true
                         );
 
                         // Top 5
                         embed.AddField(
-                            $"{GV("top5")}",
+                            $"{rm.GV("top5")}",
                             $":five: {responseData.Data.Stats.All.Overall.Top5}",
                             inline: true
                         );
 
                         // Kills
                         embed.AddField(
-                            $"{GV("kills")}",
+                            $"{rm.GV("kills")}",
                             $":crossed_swords: {responseData.Data.Stats.All.Overall.Kills}",
                             inline: true
                         );
 
                         // Deaths
                         embed.AddField(
-                            $"{GV("deaths")}",
+                            $"{rm.GV("deaths")}",
                             $":skull_crossbones: {responseData.Data.Stats.All.Overall.Deaths}",
                             inline: true
                         );
 
                         // Ratio
                         embed.AddField(
-                            $"{GV("ratio")}",
+                            $"{rm.GV("ratio")}",
                             $":nerd: {responseData.Data.Stats.All.Overall.KD}",
                             inline: true
                         );
@@ -135,20 +134,20 @@ namespace FortniteBot.Commands
                 }
                 else if ((int)response.StatusCode == 400)
                 {
-                    await ReplyAsync(Usage());
+                    await ReplyAsync(Usage(rm));
                 }
                 else if ((int)response.StatusCode == 403)
                 {
-                    await ReplyAsync($"{GV("account")} **{AccountName}** {GV("pstats")}");
+                    await ReplyAsync($"{rm.GV("account")} **{AccountName}** {rm.GV("pstats")}");
                 }
                 else if ((int)response.StatusCode == 404)
                 {
-                    await ReplyAsync($"{GV("account")} **{AccountName}** {GV("noexist")}");
+                    await ReplyAsync($"{rm.GV("account")} **{AccountName}** {rm.GV("noexist")}");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"{GV("error")} : {ex.Message}");
+                Console.WriteLine($"{rm.GV("error")} : {ex.Message}");
             }
         }
 
@@ -175,14 +174,14 @@ namespace FortniteBot.Commands
             return $"{URL}?{string.Join("&", urlParams)}";
         }
 
-        private static string Usage()
+        private static string Usage(FortniteResourceManager rm)
         {
-            return $"**{GV("usage")}** : !stats **{GV("paccount")}** _season_|_lifetime_ _image_\n" +
-                $"__{GV("mandatory")}__ :\n" +
-                $"\t**{GV("paccount")}** : {GV("accname")}\n\n" +
-                $"{GV("optionnal")} :\n" +
-                $"\t**season** | **lifetime** ({GV("default")} _lifetime_): {GV("showstats")}\n" +
-                $"\t**image** : {GV("addimage")}";
+            return $"**{rm.GV("usage")}** : !stats **{rm.GV("paccount")}** _season_|_lifetime_ _image_\n" +
+                $"__{rm.GV("mandatory")}__ :\n" +
+                $"\t**{rm.GV("paccount")}** : {rm.GV("accname")}\n\n" +
+                $"{rm.GV("optionnal")} :\n" +
+                $"\t**season** | **lifetime** ({rm.GV("default")} _lifetime_): {rm.GV("showstats")}\n" +
+                $"\t**image** : {rm.GV("addimage")}";
         }
     }
 }

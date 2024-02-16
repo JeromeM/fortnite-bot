@@ -1,14 +1,18 @@
-﻿using System.Resources;
+﻿using FortniteBot.Database;
+using System.Resources;
 
 namespace FortniteBot
 {
-    public class FortniteResourceManager
+    public class FortniteResourceManager(string guildID)
     {
-        private static readonly string DEFAULT_LANGUAGE = "en";
+        private readonly string DEFAULT_LANGUAGE = "EN";
+        private readonly string GuildID = guildID;
 
-        public static string GV(string key)
+        public string GV(string key)
         {
-            ResourceManager rm = new ResourceManager(DEFAULT_LANGUAGE, typeof(FortniteBot).Assembly);
+            var db = new Guilds(GuildID);
+
+            ResourceManager rm = new($"FortniteBot.Resources.{DEFAULT_LANGUAGE}", typeof(FortniteBot).Assembly);
             var localizedString = rm.GetString(key);
             if (localizedString != null)
             {
