@@ -126,6 +126,15 @@
   <data name="addimage" xml:space="preserve">
     <value>Ajoute une image génerée par l'API</value>
   </data>
+  <data name="admincommand" xml:space="preserve">
+    <value>Cette commande ne peut être utilisée que par un Admin.</value>
+  </data>
+  <data name="changelang1" xml:space="preserve">
+    <value>Langue définie sur</value>
+  </data>
+  <data name="changelang2" xml:space="preserve">
+    <value>Utilisez la commande une nouvelle fois pour changer.</value>
+  </data>
   <data name="deaths" xml:space="preserve">
     <value>Morts</value>
   </data>
@@ -149,6 +158,12 @@
   </data>
   <data name="kmouse" xml:space="preserve">
     <value>Clavier / Souris</value>
+  </data>
+  <data name="langnotvalid" xml:space="preserve">
+    <value>n'est pas valide. Les langues disponibles sont</value>
+  </data>
+  <data name="language" xml:space="preserve">
+    <value>Langue</value>
   </data>
   <data name="level" xml:space="preserve">
     <value>Niveau</value>
@@ -181,7 +196,7 @@
     <value>Mode de jeu préferé est</value>
   </data>
   <data name="pstats" xml:space="preserve">
-    <value>statistiques sont privées</value>
+    <value>: Les statistiques sont privées</value>
   </data>
   <data name="ratio" xml:space="preserve">
     <value>Ratio Tués/Morts</value>

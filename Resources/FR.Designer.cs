@@ -97,6 +97,33 @@ namespace FortniteBot.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Cette commande ne peut être utilisée que par un Admin..
+        /// </summary>
+        internal static string admincommand {
+            get {
+                return ResourceManager.GetString("admincommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Langue définie sur.
+        /// </summary>
+        internal static string changelang1 {
+            get {
+                return ResourceManager.GetString("changelang1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Utilisez la commande une nouvelle fois pour changer..
+        /// </summary>
+        internal static string changelang2 {
+            get {
+                return ResourceManager.GetString("changelang2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Morts.
         /// </summary>
         internal static string deaths {
@@ -156,6 +183,24 @@ namespace FortniteBot.Resources {
         internal static string kmouse {
             get {
                 return ResourceManager.GetString("kmouse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à n&apos;est pas valide. Les langues disponibles sont.
+        /// </summary>
+        internal static string langnotvalid {
+            get {
+                return ResourceManager.GetString("langnotvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Langue.
+        /// </summary>
+        internal static string language {
+            get {
+                return ResourceManager.GetString("language", resourceCulture);
             }
         }
         
@@ -250,7 +295,7 @@ namespace FortniteBot.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à statistiques sont privées.
+        ///   Recherche une chaîne localisée semblable à : Les statistiques sont privées.
         /// </summary>
         internal static string pstats {
             get {

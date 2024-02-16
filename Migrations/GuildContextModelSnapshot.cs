@@ -18,9 +18,8 @@ namespace FortniteBot.Migrations
 
             modelBuilder.Entity("FortniteBot.Models.Guild", b =>
                 {
-                    b.Property<int>("GuildID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("GuildID")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Language")
                         .IsRequired()

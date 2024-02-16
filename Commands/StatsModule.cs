@@ -32,7 +32,7 @@ namespace FortniteBot.Commands
             try
             {
                 client.DefaultRequestHeaders.Add("Authorization", apiKey);
-                HttpResponseMessage response = await client.GetAsync(GenerateUrlParams(URL));
+                HttpResponseMessage response = await client.GetAsync(GenerateUrlParams(URL, rm.Language));
 
                 // Vérifiez si la requête a réussi
                 if (response.IsSuccessStatusCode)
@@ -151,11 +151,10 @@ namespace FortniteBot.Commands
             }
         }
 
-        private string GenerateUrlParams(string URL)
+        private string GenerateUrlParams(string URL, string language)
         {
             string[] parameters = Params.Split(" ");
-            List<string> urlParams = [$"name={AccountName}"];
-        
+            List<string> urlParams = [$"name={AccountName}", $"language={language.ToLower()}"];
 
             if (parameters.Length > 0)
             {
