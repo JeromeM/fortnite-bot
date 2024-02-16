@@ -9,6 +9,7 @@ namespace FortniteBot
    public class ShopModule : ModuleBase<SocketCommandContext>
     {
         private Embed builtEmbed;
+        private Embed builtEmbed1;
 
         [Command("shop")]
         [Summary("See the shop of fortnite today")]
@@ -48,8 +49,8 @@ namespace FortniteBot
                         embed.AddField("Price", $"{responseData.Data.Featured.Entries[0].RegularPrice} :moneybag:", inline: true);
                         embed.AddField("Special Price", $"{responseData.Data.Featured.Entries[0].FinalPrice} :moneybag:", inline: true);
 
-                        //var isGiftable = responseData.Data.Featured.Entries[0].Giftable;
-                        var isGiftable = false;
+                        var isGiftable = responseData.Data.Featured.Entries[0].Giftable;
+                        
                         var giftableText = isGiftable.ToString();
                         if (isGiftable)
                         {
@@ -58,8 +59,27 @@ namespace FortniteBot
                         embed.AddField("Giftable", giftableText, inline: true);
                         builtEmbed = embed.Build();
 
+
+                        var embed2 = new EmbedBuilder
+                        {
+
+                            Title = $"__{responseData.Data.Featured.Entries[0].Items[0].Name}__",
+                            
+                            Description = responseData.Data.Featured.Entries[0].Items[0].Description +
+                              
+                                $"\n----------------------------------------------\n",
+                            Color = new Color(0, 255, 255),
+
+
+
+
+                        };
+                        embed2.AddField("Value", $"{responseData.Data.Featured.Entries[0].Items[0].Rarity.Value}:crown:", inline: true);
+                        builtEmbed1 = embed2.Build();
+                        
+
                     }
-                    await ReplyAsync(embed: builtEmbed);
+                    await ReplyAsync(embeds: [builtEmbed, builtEmbed1]);
 
 
                 }

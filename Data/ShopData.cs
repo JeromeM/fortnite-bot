@@ -30,6 +30,9 @@ namespace FortniteBot.Shop
         public int FinalPrice { get; set; }
         public Bundle Bundle { get; set; }
         public bool Giftable { get; set; }
+
+        public List<Item> Items { get; set; }
+
     }
 
     public class Bundle
@@ -39,6 +42,25 @@ namespace FortniteBot.Shop
 
         public string Image { get; set; }
 
-        
+
     }
+
+
+    public class Item
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+        public Rarity Rarity { get; set; }
+    }
+
+    public class Rarity
+    {
+        public string Value{ get; set; }
+
+       
+
+    }
+
 }
