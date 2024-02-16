@@ -1,4 +1,5 @@
-﻿using FortniteBot;
+﻿using Discord;
+using FortniteBot;
 
 namespace FortniteBot.Shop
 {
@@ -53,14 +54,31 @@ namespace FortniteBot.Shop
 
         public string Description { get; set; }
         public Rarity Rarity { get; set; }
+
+        public Images Images {  get; set; }
+
+        public Introduction Introduction { get; set; }
     }
 
     public class Rarity
     {
-        public string Value{ get; set; }
+        public string DisplayValue{ get; set; }
 
        
 
+    }
+    public class Images
+    {
+        public string Featured { get; set; }
+        public string SmallIcon { get; set; }
+
+    }
+    public class Introduction
+    {
+
+        public string Chapter { get; set; }
+        public string Season { get; set; }
+        public string Text { get; set; }
     }
 
 }
