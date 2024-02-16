@@ -4,6 +4,8 @@ using Discord.WebSocket;
 using System.Reflection;
 using FortniteBot.Helpers;
 
+using Serilog;
+
 namespace FortniteBot
 {
     public class FortniteBot
@@ -14,9 +16,14 @@ namespace FortniteBot
         public static async Task Main()
         {
 
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Verbose()
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .CreateLogger();
+
             // Récupération du Token dans la configuration
             var token = ConfigurationHelper.GetByName("Discord:Bot:Token");
-
 
             // Client Discord.NET
             _discordClient = new DiscordSocketClient(new DiscordSocketConfig
@@ -24,7 +31,7 @@ namespace FortniteBot
                 LogLevel = LogSeverity.Info,
                 GatewayIntents = GatewayIntents.Guilds | GatewayIntents.MessageContent | GatewayIntents.GuildMessages,
             });
-            _discordClient.Log += Logger.Log;
+            _discordClient.Log += Logger.LogAsync;
             _discordClient.MessageReceived += HandleCommandAsync;
 
             // Service qui va gérer les commandes
@@ -33,7 +40,7 @@ namespace FortniteBot
                 LogLevel = LogSeverity.Info,
                 CaseSensitiveCommands = false
             });
-            _commandService.Log += Logger.Log;
+            _commandService.Log += Logger.LogAsync;
 
             // Arrêt lorsqu'on fait un Ctrl + C (déconnexion propre de Discord)
             Console.CancelKeyPress += async (sender, eventArgs) =>

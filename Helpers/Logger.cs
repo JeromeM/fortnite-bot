@@ -1,31 +1,25 @@
 ﻿using Discord;
+using Serilog;
+using Serilog.Events;
 
 namespace FortniteBot.Helpers
 {
     public class Logger
     {
-        public static Task Log(LogMessage message)
+        public static async Task LogAsync(LogMessage message)
         {
-            switch (message.Severity)
+            var severity = message.Severity switch
             {
-                case LogSeverity.Critical:
-                case LogSeverity.Error:
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    break;
-                case LogSeverity.Warning:
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    break;
-                case LogSeverity.Info:
-                    Console.ForegroundColor = ConsoleColor.White;
-                    break;
-                case LogSeverity.Verbose:
-                case LogSeverity.Debug:
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    break;
-            }
-            Console.WriteLine($"{DateTime.Now,-19} [{message.Severity,8}] {message.Source}: {message.Message} {message.Exception}");
-            Console.ResetColor();
-            return Task.CompletedTask;
+                LogSeverity.Critical => LogEventLevel.Fatal,
+                LogSeverity.Error => LogEventLevel.Error,
+                LogSeverity.Warning => LogEventLevel.Warning,
+                LogSeverity.Info => LogEventLevel.Information,
+                LogSeverity.Verbose => LogEventLevel.Verbose,
+                LogSeverity.Debug => LogEventLevel.Debug,
+                _ => LogEventLevel.Information
+            };
+            Log.Write(severity, message.Exception, "[{Source}] {Message}", message.Source, message.Message);
+            await Task.CompletedTask;
         }
     }
 }

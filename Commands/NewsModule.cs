@@ -4,8 +4,6 @@ using FortniteBot.Data.News;
 using FortniteBot.Helpers;
 using Newtonsoft.Json;
 
-using static FortniteBot.FortniteResourceManager;
-
 namespace FortniteBot.Commands
 {
     public class NewsModule : ModuleBase<SocketCommandContext>
@@ -20,6 +18,8 @@ namespace FortniteBot.Commands
         [Summary("Get news for Fortnite")]
         public async Task NewsCommand()
         {
+            var rm = new FortniteResourceManager(Context.Guild.Id.ToString());
+
             using HttpClient client = new();
             try
             {
@@ -43,7 +43,7 @@ namespace FortniteBot.Commands
 
                             var embed = new EmbedBuilder
                             {
-                                Title = $"__{GV("newsbr")}__",
+                                Title = $"__{rm.GV("newsbr")}__",
                                 ImageUrl = responseData.Data.Br.Image,
                                 Description = description,
                                 Color = new Color(0, 255, 255),
@@ -57,7 +57,7 @@ namespace FortniteBot.Commands
                             var message = responseData.Data.Stw.Messages[0];
                             var embed = new EmbedBuilder
                             {
-                                Title = $"__{GV("newsstw")}__",
+                                Title = $"__{rm.GV("newsstw")}__",
                                 ImageUrl = message.Image,
                                 Description = $"**{message.Title}**\n_{message.Body}_\n\n",
                                 Color = new Color(0, 255, 255),
@@ -73,24 +73,24 @@ namespace FortniteBot.Commands
                 }
                 else if ((int)response.StatusCode == 400)
                 {
-                    await ReplyAsync(Usage());
+                    await ReplyAsync(Usage(rm));
                 }
                 else if ((int)response.StatusCode == 404)
                 {
-                    await ReplyAsync(GV("emptynews"));
+                    await ReplyAsync(rm.GV("emptynews"));
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"{GV("error")} : {ex.Message}");
+                Console.WriteLine($"{rm.GV("error")} : {ex.Message}");
             }
         }
 
-        private static string Usage()
+        private static string Usage(FortniteResourceManager rm)
         {
-            return $"**{GV("usage")}** : !news _br_|_stw_\n" +
-                $"__{GV("optionnal")}__ :\n" +
-                $"\t**br** | **stw** : {GV("newsparam")}";
+            return $"**{rm.GV("usage")}** : !news _br_|_stw_\n" +
+                $"__{rm.GV("optionnal")}__ :\n" +
+                $"\t**br** | **stw** : {rm.GV("newsparam")}";
         }
     }
 }
