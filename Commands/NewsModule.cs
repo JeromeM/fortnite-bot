@@ -24,7 +24,7 @@ namespace FortniteBot.Commands
             try
             {
                 client.DefaultRequestHeaders.Add("Authorization", apiKey);
-                HttpResponseMessage response = await client.GetAsync($"{URL}?language=fr");
+                HttpResponseMessage response = await client.GetAsync($"{URL}?language={rm.Language.ToLower()}");
 
                 // Vérifiez si la requête a réussi
                 if (response.IsSuccessStatusCode)

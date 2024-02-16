@@ -126,6 +126,15 @@
   <data name="addimage" xml:space="preserve">
     <value>Add an API generated image with all the stats</value>
   </data>
+  <data name="admincommand" xml:space="preserve">
+    <value>This command can only be used by a server admin.</value>
+  </data>
+  <data name="changelang1" xml:space="preserve">
+    <value>Language defined to</value>
+  </data>
+  <data name="changelang2" xml:space="preserve">
+    <value>Use the command to again to change it.</value>
+  </data>
   <data name="deaths" xml:space="preserve">
     <value>Deaths</value>
   </data>
@@ -149,6 +158,12 @@
   </data>
   <data name="kmouse" xml:space="preserve">
     <value>Keyboard / Mouse</value>
+  </data>
+  <data name="langnotvalid" xml:space="preserve">
+    <value>is not valid. Available languages are</value>
+  </data>
+  <data name="language" xml:space="preserve">
+    <value>Language</value>
   </data>
   <data name="level" xml:space="preserve">
     <value>Level</value>

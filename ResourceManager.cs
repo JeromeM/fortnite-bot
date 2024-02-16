@@ -3,16 +3,32 @@ using System.Resources;
 
 namespace FortniteBot
 {
-    public class FortniteResourceManager(string guildID)
+    public class FortniteResourceManager
     {
         private readonly string DEFAULT_LANGUAGE = "EN";
-        private readonly string GuildID = guildID;
+        private readonly string GuildID;
+        public string Language { get; set; }
+
+        public FortniteResourceManager(string guildID)
+        {
+            GuildID  = guildID;
+            Reload();
+        }
+
+        public void Reload()
+        {
+            var db = new Guilds(GuildID);
+            Language = db.GetGuildLanguage().ToUpper();
+
+            if (!File.Exists(Path.Combine("Resources", $"{Language}.resx")))
+            {
+                Language = DEFAULT_LANGUAGE;
+            }
+        }
 
         public string GV(string key)
         {
-            var db = new Guilds(GuildID);
-
-            ResourceManager rm = new($"FortniteBot.Resources.{DEFAULT_LANGUAGE}", typeof(FortniteBot).Assembly);
+            ResourceManager rm = new($"FortniteBot.Resources.{Language}", typeof(FortniteBot).Assembly);
             var localizedString = rm.GetString(key);
             if (localizedString != null)
             {

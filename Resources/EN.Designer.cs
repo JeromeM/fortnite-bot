@@ -97,6 +97,33 @@ namespace FortniteBot.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à This command can only be used by a server admin..
+        /// </summary>
+        internal static string admincommand {
+            get {
+                return ResourceManager.GetString("admincommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Language defined to.
+        /// </summary>
+        internal static string changelang1 {
+            get {
+                return ResourceManager.GetString("changelang1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Use the command to again to change it..
+        /// </summary>
+        internal static string changelang2 {
+            get {
+                return ResourceManager.GetString("changelang2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Deaths.
         /// </summary>
         internal static string deaths {
@@ -156,6 +183,24 @@ namespace FortniteBot.Resources {
         internal static string kmouse {
             get {
                 return ResourceManager.GetString("kmouse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à is not valid. Available languages are.
+        /// </summary>
+        internal static string langnotvalid {
+            get {
+                return ResourceManager.GetString("langnotvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Language.
+        /// </summary>
+        internal static string language {
+            get {
+                return ResourceManager.GetString("language", resourceCulture);
             }
         }
         

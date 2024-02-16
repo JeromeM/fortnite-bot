@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace FortniteBot.Models
 {
@@ -10,9 +11,8 @@ namespace FortniteBot.Models
 
         public GuildContext()
         {
-            var folder = Environment.SpecialFolder.LocalApplicationData;
-            var path = Environment.GetFolderPath(folder);
-            DbPath = System.IO.Path.Join(path, "guilds.db");
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            DbPath = Path.Join(path, "guilds.db");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
@@ -21,7 +21,7 @@ namespace FortniteBot.Models
 
     public class Guild
     {
-        public int GuildID { get; set; }
+        public string GuildID { get; set; }
         public string Language { get; set; }
     }
 
