@@ -11,8 +11,6 @@ namespace FortniteBot.Shop
 
     public class Data
     {
-
-        public string VbuckIcon { get; set; }
         public Featured Featured { get; set; }
 
     }
@@ -21,7 +19,6 @@ namespace FortniteBot.Shop
     public class Featured
     {
         public List<Entry> Entries { get; set; }
-        public string Name { get; set; }
 
     }
 
@@ -31,7 +28,6 @@ namespace FortniteBot.Shop
         public int FinalPrice { get; set; }
         public Bundle Bundle { get; set; }
         public bool Giftable { get; set; }
-
         public List<Item> Items { get; set; }
 
     }
@@ -40,7 +36,6 @@ namespace FortniteBot.Shop
     {
         public string Info { get; set; }
         public string Name { get; set; }
-
         public string Image { get; set; }
 
 
@@ -49,14 +44,10 @@ namespace FortniteBot.Shop
 
     public class Item
     {
-        public string Id { get; set; }
         public string Name { get; set; }
-
         public string Description { get; set; }
         public Rarity Rarity { get; set; }
-
         public Images Images {  get; set; }
-
         public Introduction Introduction { get; set; }
     }
 
@@ -70,14 +61,10 @@ namespace FortniteBot.Shop
     public class Images
     {
         public string Featured { get; set; }
-        public string SmallIcon { get; set; }
 
     }
     public class Introduction
     {
-
-        public string Chapter { get; set; }
-        public string Season { get; set; }
         public string Text { get; set; }
     }
 

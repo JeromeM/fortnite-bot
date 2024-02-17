@@ -14,5 +14,15 @@
                 (list[n], list[k]) = (list[k], list[n]);
             }
         }
+
+        public static string Capitalize(this string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
+            return char.ToUpper(value[0]) + value[1..];
+        }
     }
 }
