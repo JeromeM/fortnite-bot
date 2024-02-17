@@ -6,10 +6,10 @@ using FortniteBot.Commands.Interface;
 using Newtonsoft.Json;
 
 
-namespace FortniteBot
+namespace FortniteBot.Commands
 {
     [Group("shop")]
-   public class ShopModule : ModuleBase<SocketCommandContext>, ICommandsInterface
+    public class ShopModule : ModuleBase<SocketCommandContext>, ICommandsInterface
     {
         private Embed builtEmbedItem;
         private Embed builtEmbedBundle;
@@ -156,7 +156,9 @@ namespace FortniteBot
 
         public string Usage(FortniteResourceManager rm)
         {
-            return "";
+            return $"**{rm.GV("usage")}** : !shop **type**\n\n" +
+                    $"\t**item** : Show a random item available in the shop.\n" +
+                    $"\t**bundle** : Show a random bundle from the shop.\n";
         }
     }
 }
