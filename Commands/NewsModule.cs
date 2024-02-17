@@ -2,17 +2,18 @@
 using Discord.Commands;
 using FortniteBot.Data.News;
 using FortniteBot.Helpers;
+using FortniteBot.Commands.Interface;
 using Newtonsoft.Json;
 
 namespace FortniteBot.Commands
 {
-    public class NewsModule : ModuleBase<SocketCommandContext>
+    public class NewsModule : ModuleBase<SocketCommandContext>, ICommandsInterface
     {
         private Embed? builtEmbedBattleRoyale;
         private Embed? builtEmbedSaveTheWorld;
 
-        private readonly string apiKey = ConfigurationHelper.GetByName("Discord:API:Key");
-        private readonly string URL = ConfigurationHelper.GetByName("Discord:API:News:URL");
+        public string ApiKey { get; } = ConfigurationHelper.GetByName("Discord:API:Key");
+        public string URL { get; } = ConfigurationHelper.GetByName("Discord:API:News:URL");
 
         [Command("news")]
         [Summary("Get news for Fortnite")]
@@ -23,7 +24,7 @@ namespace FortniteBot.Commands
             using HttpClient client = new();
             try
             {
-                client.DefaultRequestHeaders.Add("Authorization", apiKey);
+                client.DefaultRequestHeaders.Add("Authorization", ApiKey);
                 HttpResponseMessage response = await client.GetAsync($"{URL}?language={rm.Language.ToLower()}");
 
                 // Vérifiez si la requête a réussi
@@ -86,9 +87,9 @@ namespace FortniteBot.Commands
             }
         }
 
-        private static string Usage(FortniteResourceManager rm)
+        public string Usage(FortniteResourceManager rm)
         {
-            return $"**{rm.GV("usage")}** : !news _br_|_stw_\n" +
+            return $"**{rm.GV("usage")}** : !news _br_|_stw_\n\n" +
                 $"__{rm.GV("optionnal")}__ :\n" +
                 $"\t**br** | **stw** : {rm.GV("newsparam")}";
         }

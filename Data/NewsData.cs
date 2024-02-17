@@ -13,17 +13,12 @@
 
     public class BattleRoyale
     {
-        public DateTime Date { get; set; }
         public string Image { get; set; }
         public List<Motd> Motds { get; set; }
-        public List<Message> Messages { get; set; }
     }
 
     public class SaveTheWorld
     {
-        public DateTime Date { get; set; }
-        public string Image { get; set; }
-        public List<Motd> Motds { get; set; }
         public List<Message> Messages { get; set; }
     }
 
@@ -31,9 +26,6 @@
     {
         public string Title { get; set; }
         public string Body { get; set; }
-        public string Image { get; set; }
-        public int SortingPriority { get; set; }
-        public bool Hidden { get; set; }
     }
 
     public class Message

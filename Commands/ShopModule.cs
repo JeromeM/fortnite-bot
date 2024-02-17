@@ -2,28 +2,32 @@
 using Discord.Commands;
 using FortniteBot.Helpers;
 using FortniteBot.Shop;
+using FortniteBot.Commands.Interface;
 using Newtonsoft.Json;
 
 
 namespace FortniteBot
 {
-   public class ShopModule : ModuleBase<SocketCommandContext>
+    [Group("shop")]
+   public class ShopModule : ModuleBase<SocketCommandContext>, ICommandsInterface
     {
-        //Création de paramètres de type Embed
-        private Embed builtEmbed;
-        private Embed builtEmbed1;
-        //Configuration de l'API pour que la Boutique marche 
-        private readonly string apiKey = ConfigurationHelper.GetByName("Discord:API:Key");
-        private readonly string URL = ConfigurationHelper.GetByName("Discord:API:Shop:URL");
-        //Création d'une commande "!shop"
-        [Command("shop")]
-        [Summary("See the shop of fortnite today ")]
-        public async Task ShopCommand()
+        private Embed builtEmbedItem;
+        private Embed builtEmbedBundle;
+        private Embed builtEmbedBundleItem;
+
+        public string ApiKey { get; } = ConfigurationHelper.GetByName("Discord:API:Key");
+        public string URL { get; } = ConfigurationHelper.GetByName("Discord:API:Shop:URL");
+
+        [Command("item")]
+        [Summary("Show a random item from the shop of the day")]
+        public async Task ItemCommand()
         {
+            var rm = new FortniteResourceManager(Context.Guild.Id.ToString());
+
             using HttpClient Client = new();
             try
             {
-                Client.DefaultRequestHeaders.Add("Authorization", apiKey);
+                Client.DefaultRequestHeaders.Add("Authorization", ApiKey);
                 HttpResponseMessage response = await Client.GetAsync($"{URL}");
 
                 if (response.IsSuccessStatusCode)
@@ -32,7 +36,7 @@ namespace FortniteBot
                     var responseData = JsonConvert.DeserializeObject<ShopData>(jsonresponse);
 
                     if (responseData != null)
-                    {   //Utilisation du shuffle pour randomiser
+                    {
                         var entries = responseData.Data.Featured.Entries;
                         entries.Shuffle();
 
@@ -40,7 +44,7 @@ namespace FortniteBot
                         {
                             entries.Shuffle();
                         }
-                        //Création du message de type embed avec le titre, l'image ect..
+                        
                         var embed = new EmbedBuilder
                         {
                             Title = $"__{entries[0].Items[0].Name}__",
@@ -51,17 +55,19 @@ namespace FortniteBot
                             {
                                 Text = entries[0].Items[0].Introduction.Text
                             }
-                    }; //Ajout d'une 'un embed s'attachant a l'autre embed pour faire la rariter du personnage ( galère )
+                        };
+                        
+                        
                         embed.AddField("Rarity", entries[0].Items[0].Rarity.DisplayValue, inline: true);
-                        //Création de l'embed
-                        builtEmbed = embed.Build();
-                    }//attendre la réponse et si la commande et reçue alors il envoie l'embed 
-                    await ReplyAsync(embed: builtEmbed);
+
+                        builtEmbedItem = embed.Build();
+                    }
+                    await ReplyAsync(embed: builtEmbedItem);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Console.WriteLine($"{rm.GV("error")} : {ex.Message}");
             }
             
         }
@@ -74,7 +80,7 @@ namespace FortniteBot
 
             try
             {
-                Client.DefaultRequestHeaders.Add("Authorization", apiKey);
+                Client.DefaultRequestHeaders.Add("Authorization", ApiKey);
                 HttpResponseMessage response = await Client.GetAsync($"{URL}");
 
                 if (response.IsSuccessStatusCode)
@@ -94,7 +100,7 @@ namespace FortniteBot
                             entries.Shuffle();
                         }
 
-                        var embed = new EmbedBuilder
+                        var bundleEmbed = new EmbedBuilder
                         {
                             Title = $"__{entries[0].Bundle.Name}__",
                             ImageUrl = entries[0].Bundle.Image,
@@ -104,8 +110,8 @@ namespace FortniteBot
                            
                         };
 
-                        embed.AddField("Price", $"{entries[0].RegularPrice} :moneybag:", inline: true);
-                        embed.AddField("Special Price", $"{entries[0].FinalPrice} :moneybag:", inline: true);
+                        bundleEmbed.AddField("Price", $"{entries[0].RegularPrice} :moneybag:", inline: true);
+                        bundleEmbed.AddField("Special Price", $"{entries[0].FinalPrice} :moneybag:", inline: true);
 
                         var isGiftable = entries[0].Giftable;
                         var giftableText = isGiftable.ToString();
@@ -114,10 +120,10 @@ namespace FortniteBot
                         {
                             giftableText = isGiftable.ToString() + " :gift:";
                         }
-                        embed.AddField("Giftable", giftableText, inline: true);
-                        builtEmbed = embed.Build();
+                        bundleEmbed.AddField("Giftable", giftableText, inline: true);
+                        builtEmbedBundle = bundleEmbed.Build();
 
-                        var embed2 = new EmbedBuilder
+                        var bundleEmbedItem = new EmbedBuilder
                         {
                             Title = $"__{entries[0].Items[0].Name}__",
                             Description = entries[0].Items[0].Description +
@@ -132,10 +138,10 @@ namespace FortniteBot
                               }
 
                               };
-                        embed2.AddField("Value", $"__{entries[0].Items[0].Rarity.DisplayValue}__:crown:", inline: true);
-                        builtEmbed1 = embed2.Build();
+                        bundleEmbedItem.AddField("Value", $"__{entries[0].Items[0].Rarity.DisplayValue}__:crown:", inline: true);
+                        builtEmbedBundleItem = bundleEmbedItem.Build();
                     }
-                    await ReplyAsync(embeds: [builtEmbed, builtEmbed1]);
+                    await ReplyAsync(embeds: [builtEmbedBundle, builtEmbedBundleItem]);
                 }
 
             }
@@ -146,6 +152,11 @@ namespace FortniteBot
 
             }
 
+        }
+
+        public string Usage(FortniteResourceManager rm)
+        {
+            return "";
         }
     }
 }

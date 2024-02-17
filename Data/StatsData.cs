@@ -7,15 +7,9 @@
 
     public class Data
     {
-        public Account Account { get; set; }
         public BattlePass BattlePass { get; set; }
         public Stats Stats { get; set; }
         public string Image {  get; set; }
-    }
-
-    public class Account
-    {
-        public string Name { get; set; }
     }
 
     public class BattlePass
